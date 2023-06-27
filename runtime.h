@@ -6,6 +6,7 @@
 map<string,varst> var;
 const char opr_chr[]="+-*/%&|!><=.,@()[]{}^~";
 const char str_chr[]="\"\'`";
+const char otr_chr[]=";\n";
 
 int64 StrType(int c){
 	for(int i=0;i<sizeof(opr_chr);i++){
@@ -13,7 +14,12 @@ int64 StrType(int c){
 			return 1;
 		}
 	}
-	if(isspace(c))return 2;
+	for(int i=0;i<sizeof(otr_chr);i++){
+		if(c==otr_chr[i]){
+			return 2;
+		}
+	}
+	if(isspace(c))return 3;
 	return 0;
 }
 int64 StrIs(int c){
@@ -31,8 +37,6 @@ int64 Eval(char* code){
 	int64 i=0,t=0;
 	vector<int64> start;
 	vector<int64> end;
-	bool istart=false;
-	bool isnum=false;
 	//这段是预处理，分割并记录每个词 
 	//目前问题：没有对批注的兼容、单独的反斜杠加字母会被忽略 
 	while(i<size){
@@ -43,7 +47,7 @@ int64 Eval(char* code){
 			//字符串 
 			start.push_back(i);
 			t=i;
-			for(i++;code[i]!=code[t]/*&&i<size*/;i++)
+			for(i++;code[i]!=code[t]&&i<size;i++);
 			end.push_back(i+1);
 			word++;
 		}else if(code[i]=='\\'){
