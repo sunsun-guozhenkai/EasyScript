@@ -4,7 +4,7 @@
 #define Eval_Z if(code[i]=='\\')i+=2
 
 map<string,varst> var;
-const char opr_chr[]="+-*/%&|!><=.,@()[]{}^~\"\'`";
+const char opr_chr[]="+-*/%&|!><=.,@()[]{}^~";
 const char str_chr[]="\"\'`";
 
 int64 StrType(int c){
@@ -37,34 +37,37 @@ int64 Eval(char* code){
 	//目前问题：没有对批注的兼容、单独的反斜杠加字母会被忽略 
 	while(i<size){
 		//空格 
-		while(isspce(code[i]))i++;
+		while(isspace(code[i])&&i<size)i++;
 		if(StrIs(code[i])){
+			printf("a\n");
 			//字符串 
+			start.push_back(i);
 			t=i;
-			for(i++;code[i]!=code[t];i++)
-			i++;
-			start.push_back(t);
-			end.push_back(i);
+			for(i++;code[i]!=code[t]/*&&i<size*/;i++)
+			end.push_back(i+1);
 			word++;
 		}else if(code[i]=='\\'){
 			//转义符 
-			i+=2
+			i+=2;
 		}else{
+			printf("b\n");
 			//其他 
 			start.push_back(i);
-			for(;StrType(code[i])==StrType(code[i+1]);i++);
-			end.push_back(i);
+			for(;StrType(code[i])==StrType(code[i+1])&&i<size;i++);
+			end.push_back(i+1);
 			word++;
+			//continue;
 		}
+		t=0;
+		i++;
 	}
-	return 0;
-	loop:
-		for(int i=0;i<word;i++){
-			printf("#%d  -->  %d\n>>>",start[i],end[i]);
-			for(int j=start[i];j<end[i];j++){
-				printf("%c",code[j])
-			}
+	for(int i=0;i<word;i++){
+		printf("#%d  -->  %d\n>>>",start[i],end[i]);
+		for(int j=start[i];j<end[i];j++){
+			printf("%c",code[j]);
 		}
+		printf("\n");
+	}
 }
 
 #endif
