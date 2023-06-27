@@ -1,0 +1,2 @@
+# EasyScript
+A script language.
