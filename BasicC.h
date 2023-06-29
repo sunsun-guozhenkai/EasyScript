@@ -1,7 +1,6 @@
 #ifndef SLS_ES_BASICC_HEADER
 #define SLS_ES_BASICC_HEADER
 
-#include <iostream>
 #include <string>
 #include <cstring>
 #include <stdlib.h>
@@ -20,16 +19,15 @@ using namespace std;
 #define uf unsigned
 #define unllptr 0
 
-struct Array{
-	int64 size;
-	string data;
-};
-
-
-
-struct varst{
+struct vars{
 	byte type;
 	void* point;
+};
+
+struct RTC{
+	string o;
+	string v;
+	int64 n;
 };
 
 #endif
